@@ -86,7 +86,7 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
 DATABASES = {
-    'default':dj_database_url.config(default='postgres://ckmsmmexjashsf:d42161bcadc20191924b14d8e488ff3a8bda248f863272aa100d20e448d721b0@ec2-54-247-92-185.eu-west-1.compute.amazonaws.com:5432/d7dgmt75e8sqcm')
+    'default':dj_database_url.config(default='postgres://nsjvtsghcwqoqe:6b23dbb5cc8eac7aa2b19e0053deb4800853905aefb251fa76037b6093645fa1@ec2-54-75-235-2.eu-west-1.compute.amazonaws.com:5432/d5ogimdktam431')
 }
 
 # Password validation
