@@ -23,6 +23,7 @@ def generateWorkReport(request,work_repor_id):
     return response
 
 
+
 '''def detailEquipment(request, equipment_id):
     EquipmentFormset = formset_factory(MoveEquipmentForm)
     MaterialFormset = formset_factory(MoveMaterialForm)
