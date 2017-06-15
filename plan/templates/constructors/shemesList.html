@@ -1,0 +1,42 @@
+{% extends "main/choosePage.html" %}
+{# Подгружаем статические файлы #}
+{% load staticfiles %}
+
+{# Подгружаем модули#}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+Z
+
+{% block navigating %}
+<a href="/constructors/" class="btn btn-default">Главная</a>
+<a href="/constructors/stock_balance/{{area_id}}/" class="btn btn-default">Баланс на складе</a>
+
+<a href="/constructors/tehnology/" class="btn btn-default">Технология</a>
+<a href="/constructors/shemes/" class="btn btn-info">Чертежи</a>
+{% endblock %}
+
+{% block creationForm %}
+    <br>
+
+<form method="post" action="/constructors/addSheme/">
+     {% csrf_token %}
+      {{  addForm.management_form }}
+
+<table align="center" width="80%">
+    <tr>
+        <td valign= "center"> {%  bootstrap_field addForm.author %}</td>
+        <td valign= "center"> {%  bootstrap_field addForm.code %}</td>
+        <td valign= "center"> {%  bootstrap_field addForm.link %}</td>
+        <td valign= "top"> <input  align="center" class="btn btn-primary" type="submit" value="Добавить Чертёж" class="button"/></td>
+    </tr>
+</table>
+</form>
+
+
+    {% endblock %}
+
+
+
+

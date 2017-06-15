@@ -1,29 +1,18 @@
-{% extends "plan/base.html" %}
-{# Load the tag library #}
-{% load bootstrap3 %}
+{% extends "main/index.html" %}
+{# Подгружаем статические файлы #}
+{% load staticfiles %}
 
-{# Load CSS and JavaScript #}
+{# Подгружаем модули#}
+{% load bootstrap3 %}
 {% bootstrap_css %}
 {% bootstrap_javascript %}
-
-{# Display django.contrib.messages as Bootstrap alerts #}
 {% bootstrap_messages %}
 
+{% block navigating %}
+<a href="/" class="btn btn-info">Главная</a>
+<a href="/products/" class="btn btn-default">Продукты</a>
 
-{% block title %}Информатика{% endblock %}
-
-{% block content %}
-   <h1>Добро пожаловать</h1>
-    {% if user.is_authenticated == False %}
-        <p>Для доступа к системе Вам надо войти или зарегистрироваться</p>
-    {% else %}
-        <p>Если Вы доделали задание, Вам надо добавить попытку в личном кабиненте</p>
-        <p><a class="btn btn-primary btn-lg" role="button" href="personal\">Личный кабинет »</a></p>
-        {% if user.is_staff %}
-            <p><a class="btn btn-success btn-lg" role="button" href="attemptList\">Список попыток»</a></p>
-            <p><a class="btn btn-success btn-lg" role="button" href="addTask\">Добавить задание»</a>
-            <a class="btn btn-success btn-lg" role="button" href="..\..\marks\">Оценки»</a></p>
-        {%  endif %}
-    {% endif %}
+<a href="/recipes/" class="btn btn-default">Рецепты</a>
+<a href="/plan/" class="btn btn-default">План</a>
+<a href="/buy/" class="btn btn-default">Покупки</a>
 {% endblock %}
-

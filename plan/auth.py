@@ -84,28 +84,3 @@ def logout_view(request):
     return HttpResponseRedirect("../../../../")
 
 
-# стартовая страница
-def index(request):
-    # обработка входа
-    if request.method == "POST":
-        # если в post-запросе есть поля логина/пароля
-        if ("username" in request.POST) and ("password" in request.POST):
-            username = request.POST['username']
-            password = request.POST['password']
-            # пробуем залогиниться
-            user = auth.authenticate(username=username, password=password)
-            request.POST._mutable = True
-            # если полльзователь существует и он активен
-            if user is not None and user.is_active:
-                # входим на сайт
-                auth.login(request, user)
-                # выводим сообщение об удаче
-                messages.success(request, "успешный вход")
-            else:
-                messages.error(request, "пара логин-пароль не найдена")
-    template = 'plan/index.html'
-    context = {
-        "user": request.user,
-        "login_form": LoginForm(),
-    }
-    return render(request, template, context)

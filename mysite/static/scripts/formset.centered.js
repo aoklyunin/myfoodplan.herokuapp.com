@@ -12,8 +12,7 @@
 ;(function($) {
     $.fn.formset = function(opts)
     {
-
-        var options = $.extend({}, $.fn.formset.defaults, opts),
+      var options = $.extend({}, $.fn.formset.defaults, opts),
             flatExtraClasses = options.extraClasses.join(' '),
             totalForms = $('#id_' + options.prefix + '-TOTAL_FORMS'),
             maxForms = $('#id_' + options.prefix + '-MAX_NUM_FORMS'),
@@ -60,7 +59,7 @@
                 if (row.is('TR')) {
                     // If the forms are laid out in table rows, insert
                     // the remove button into the last table cell:
-                    row.append('<td valign = "top"><a class="' + options.deleteCssClass +'" href="javascript:void(0)">' + options.deleteText + '</a></td>');
+                    row.append('<td valign = "center"><a class="' + options.deleteCssClass +'" href="javascript:void(0)">' + options.deleteText + '</a></td>');
                 } else if (row.is('UL') || row.is('OL')) {
                     // If they're laid out as an ordered/unordered list,
                     // insert an <li> after the last list item:
@@ -179,8 +178,10 @@
                 // If forms are laid out as table rows, insert the
                 // "add" button in a new table row:
                 var numCols = $$.eq(0).children().length,   // This is a bit of an assumption :|
+
                     buttonRow = $('<tr><td align="right" colspan="' + numCols + '"><a class="' + options.addCssClass + '" href="javascript:void(0)">' + options.addText + '</a></tr>')
                                 .addClass(options.formCssClass + '-add');
+
                 $$.parent().append(buttonRow);
                 if (hideAddButton) buttonRow.hide();
                 addButton = buttonRow.find('a');
@@ -216,6 +217,20 @@
                 // If a post-add callback was supplied, call it with the added form:
                 if (options.added) options.added(row);
 
+                $(document).ready(function (){
+                    $("#disease").select2({
+                        allowClear:true,
+                        placeholder: 'Поиск оборудования'
+                    });
+                })
+                $(".js-example-basic-multiple").select2();
+                $('.timepicker123').timepicker({
+                    timeFormat: 'H:mm',
+                    interval: 15,
+                    startTime: '10:00',
+                    dropdown: true,
+                    scrollbar: true
+                 });
                 return false;
             });
         }

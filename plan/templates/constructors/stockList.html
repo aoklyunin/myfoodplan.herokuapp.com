@@ -1,0 +1,37 @@
+{% extends "main/base.html" %}
+{# Подгружаем статические файлы #}
+{% load staticfiles %}
+
+{# Подгружаем модули#}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+
+
+{% block navigating %}
+<a href="/constructors/" class="btn btn-default">Главная</a>
+<a href="/constructors/stock_balance/{{area_id}}/" class="btn btn-info">Баланс на складе</a>
+
+<a href="/constructors/tehnology/" class="btn btn-default">Технология</a>
+<a href="/constructors/shemes/" class="btn btn-default">Чертежи</a>
+{% endblock %}
+
+{% block sub_content %}
+
+    <br><br>
+    <table width="60%" align="center">
+        <thead>
+            <td><b>Оборудование</b></td>
+            <td><b>Кол-во</b></td>
+        </thead>
+        {%for l in lst %}
+            <tr>
+                <td>{{l|first}}</td>
+                <td>{{l|last}}</td>
+            </tr>
+        {%endfor%}
+    </table>
+    <br>
+    <a align="center" href="/constructors/stock_balance/{{area_id}}/" class="btn btn-default">Назад</a>
+{% endblock %}

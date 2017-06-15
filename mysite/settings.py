@@ -39,7 +39,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'plan',
-    'bootstrap3'
+    'bootstrap3',
+    'crispy_forms',
 )
 
 from django.contrib.messages import constants as messages

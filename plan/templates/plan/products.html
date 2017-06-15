@@ -1,0 +1,43 @@
+{% extends "main/choosePage.html" %}
+{# Подгружаем статические файлы #}
+{% load staticfiles %}
+
+{# Подгружаем модули#}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+
+
+
+{% block navigating %}
+<a href="/" class="btn btn-default">Главная</a>
+<a href="/products/" class="btn btn-info">Продукты</a>
+
+<a href="/recipes/" class="btn btn-default">Рецепты</a>
+<a href="/plan/" class="btn btn-default">План</a>
+<a href="/buy/" class="btn btn-default">Покупки</a>
+{% endblock %}
+{% block creationForm %}
+    <br>
+
+<form method="post" action="/product/add/">
+     {% csrf_token %}
+      {{  addForm.management_form }}
+
+<table align="center" width="80%">
+    <tr>
+        <td valign= "center"> {%  bootstrap_field addForm.name %}</td>
+        <td valign= "center"> {%  bootstrap_field addForm.tp %}</td>
+
+       <td valign= "center"> <input  align="center" class="btn btn-primary" type="submit" value="Добавить Продукт" class="button"/></td>
+    </tr>
+</table>
+</form>
+
+
+{% endblock %}
+
+
+
+

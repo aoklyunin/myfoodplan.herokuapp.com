@@ -12,8 +12,7 @@
 ;(function($) {
     $.fn.formset = function(opts)
     {
-
-        var options = $.extend({}, $.fn.formset.defaults, opts),
+      var options = $.extend({}, $.fn.formset.defaults, opts),
             flatExtraClasses = options.extraClasses.join(' '),
             totalForms = $('#id_' + options.prefix + '-TOTAL_FORMS'),
             maxForms = $('#id_' + options.prefix + '-MAX_NUM_FORMS'),
@@ -216,6 +215,14 @@
                 // If a post-add callback was supplied, call it with the added form:
                 if (options.added) options.added(row);
 
+                $(document).ready(function (){
+                    $("#equipment").select2({
+                        allowClear:true,
+                        placeholder: 'Поиск оборудования'
+                    });
+                })
+                $(".beautiful-select").select2();
+                aler('asd');
                 return false;
             });
         }
