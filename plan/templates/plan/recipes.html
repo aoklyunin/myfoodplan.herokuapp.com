@@ -12,25 +12,24 @@
 
 {% block navigating %}
 <a href="/" class="btn btn-default">Главная</a>
-<a href="/products/" class="btn btn-info">Продукты</a>
+<a href="/products/" class="btn btn-default">Продукты</a>
 
-<a href="/recipes/" class="btn btn-default">Рецепты</a>
+<a href="/recipes/" class="btn btn-info">Рецепты</a>
 <a href="/plan/" class="btn btn-default">План</a>
 <a href="/buy/" class="btn btn-default">Покупки</a>
 {% endblock %}
 {% block creationForm %}
     <br>
 
-<form method="post" action="/product/add/">
+<form method="post" action="/recipe/add/">
      {% csrf_token %}
       {{  addForm.management_form }}
 
 <table align="center" width="80%">
     <tr>
         <td valign= "center"> {%  bootstrap_field addForm.name %}</td>
-        <td valign= "center"> {%  bootstrap_field addForm.tp %}</td>
 
-       <td valign= "center"> <input  align="center" class="btn btn-primary"   onclick="YNconfirm(); return false;" type="submit" value="Добавить Продукт" class="button"/></td>
+       <td valign= "center"> <input  align="center" class="btn btn-primary" type="submit" value="Добавить Продукт" class="button"/></td>
     </tr>
 </table>
 </form>

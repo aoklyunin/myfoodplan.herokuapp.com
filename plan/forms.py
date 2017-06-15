@@ -6,9 +6,9 @@ from django import forms
 
 # форма логина
 from django.db.models import BLANK_CHOICE_DASH
-from django.forms import Form, CharField, TextInput, ChoiceField, ModelChoiceField, ModelForm
+from django.forms import Form, CharField, TextInput, ChoiceField, ModelChoiceField, ModelForm, FloatField
 
-from plan.models import Product, ProductType
+from plan.models import Product, ProductType, Recipe
 
 
 def subdict(form, keyset):
@@ -23,6 +23,15 @@ def getProducts():
         for eq in Product.objects.filter(tp=i).order_by('name'):
             lst.append([eq.id, str(eq)])
         equipments.append([i.name, lst])
+
+    return equipments + BLANK_CHOICE_DASH
+
+
+# получить список оборудования
+def getRecipes():
+    equipments = []
+    for i in Recipe.objects.all().order_by('name'):
+        equipments.append([i.pk, i])
 
     return equipments + BLANK_CHOICE_DASH
 
@@ -84,7 +93,6 @@ class ProductSingleForm(Form):
 
 # форма оборудования
 class ProductForm(ModelForm):
-
     class Meta:
         model = Product
         fields = {'dimention', 'name', 'proteins', 'fats', 'carbohydrates', 'caloricity', 'tp', 'cnt', 'dt', 'water'}
@@ -113,3 +121,73 @@ class ProductForm(ModelForm):
     def __init__(self, *args, **kwargs):
         # first call parent's constructor
         super(ProductForm, self).__init__(*args, **kwargs)
+
+
+# форма для выбора изделия для редактирования  конструктором
+class RecipeSingleForm(Form):
+    equipment = ChoiceField(label="")
+
+    def __init__(self, *args, **kwargs):
+        super(RecipeSingleForm, self).__init__(*args, **kwargs)
+        self.fields['equipment'].choices = getRecipes()
+        self.fields['equipment'].widget.attrs['class'] = 'beautiful-select'
+        self.fields['equipment'].widget.attrs['id'] = 'equipment'
+
+
+# форма оборудования
+class RecipeForm(ModelForm):
+    eat = forms.MultipleChoiceField(
+        choices=(
+            (0, 'завтрак'),
+            (1, 'обед'),
+            (2, 'полдник'),
+            (3, 'ужин'),
+        ),
+        label="Когда можно есть", required=False)
+
+    class Meta:
+        model = Recipe
+        fields = {'name', 'instruction'}
+        widgets = {
+            'name': TextInput(attrs={'placeholder': 'Изделие'}),
+            'instruction': forms.Textarea(attrs={'cols': 80, 'rows': 10}),
+        }
+
+        labels = {
+            'name': 'Название',
+            'instruction': 'Инструкция',
+        }
+
+        error_messages = {
+            'name': {'invalid': '', 'invalid_choice': ''},
+        }
+
+    def __init__(self, *args, **kwargs):
+        # first call parent's constructor
+        super(RecipeForm, self).__init__(*args, **kwargs)
+
+
+# форма для добавления новых изделий
+class AddRecipeForm(Form):
+    name = CharField(max_length=10000, label="Название",
+                     widget=TextInput(attrs={'placeholder': 'Рагу'}))
+
+    def __init__(self, *args, **kwargs):
+        super(AddRecipeForm, self).__init__(*args, **kwargs)
+
+
+# форма для выбора одного изделия с кол-вом
+class RecipePortionForm(Form):
+    product = ChoiceField(label="")
+    cnt = FloatField(label="")
+
+    def __init__(self, *args, **kwargs):
+        super(RecipePortionForm, self).__init__(*args, **kwargs)
+        self.fields['product'].choices = getProducts()
+        self.fields['product'].widget.attrs['class'] = 'beautiful-select'
+        self.fields['product'].widget.attrs['id'] = 'equipment'
+
+        self.fields['product'].initial = None
+        self.fields['cnt'].initial = 0
+        self.fields['product'].required = False
+        self.fields['cnt'].required = False

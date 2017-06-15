@@ -111,6 +111,10 @@ class Recipe(models.Model):
     carbohydrates = models.FloatField(default=0)
     # калорийность на 100 г.
     caloricity = models.FloatField(default=0)
+    # вес
+    weight = models.FloatField(default=0)
+    # воды
+    water = models.FloatField(default=0)
     # когда можно употреблять
     # определяется по маске первый бит - завтрак, второй бит - второй завтрак,
     # третий - обед, четвёртый - полдник, пятый - ужин
@@ -124,6 +128,65 @@ class Recipe(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def generateData(self):
+        arr = []
+        for ns in self.products.all():
+            if (ns.product != None):
+                arr.append({'product': str(ns.product.pk),
+                            'cnt': str(ns.count)})
+        return arr
+
+    def addFromFormset(self, formset, doCrear=False):
+        if (doCrear):
+            for ns in self.products.all():
+                ns.delete()
+            self.products.clear()
+
+        if formset.is_valid():
+            self.proteins = 0
+            self.fats = 0
+            self.carbohydrates = 0
+            self.caloricity = 0
+            self.weight = 0
+            self.water = 0
+
+
+            for form in formset.forms:
+                if form.is_valid:
+                    try:
+                        d = form.cleaned_data
+                        ns = ProductPortion.objects.create(product=Product.objects.get(pk=int(d["product"])),
+                                                           count=float(d["cnt"]))
+                        ns.save()
+
+                        self.products.add(ns)
+                        p = Product.objects.get(pk=int(d["product"]))
+                        self.proteins += p.proteins
+                        self.fats += p.fats
+                        self.carbohydrates += p.carbohydrates
+                        self.caloricity += p.caloricity
+                        self.weight += d["cnt"]
+                        self.water += p.water
+                        self.save()
+                    except:
+                        print("ошибка работы формы из формсета gen-equipment")
+                else:
+                    print("for is not valid")
+
+    def getEatChoices(self):
+        s = self.eatEnable;
+        #   print("ee " + str(self.eatEnable))
+        lst = []
+        for i in range(4):
+            # print(s)
+            #  print("i="+str(i)+", mod "+str(2 ** (i + 1)))
+            if s % 2 == 1:
+                #     print("yes")
+                lst.append(i)
+            s = s // 2
+
+        return lst
 
 
 # часть блюда
@@ -143,3 +206,32 @@ class RecipePart(models.Model):
 class DailyPlan(models.Model):
     date = models.DateField(default=datetime.datetime.today())
     rParts = models.ManyToManyField(RecipePart)
+
+'''
+ if (doCrear):
+            for ns in self.products.all():
+                ns.delete()
+            self.products.clear()
+
+        if formset.is_valid():
+          
+            for form in formset.forms:
+                if form.is_valid:
+                    #try:
+                        d = form.cleaned_data
+                        
+                        ns = ProductPortion.objects.create(product=Product.objects.get(pk=int(d["product"])), count=float(d["cnt"]))
+                        ns.save()
+                        
+                        p = Product.objects.get(pk=int(d["product"]))
+                        self.proteins += p.proteins
+                        self.fats += p.fats
+                        self.carbohydrates += p.carbohydrates
+                        self.caloricity += p.caloricity
+                        self.weight += d["cnt"]
+                        self.water += p.water
+                    #except:
+                    #    print("ошибка работы формы из формсета gen-equipment")
+                else:
+                    print("for is not valid")
+                    '''
