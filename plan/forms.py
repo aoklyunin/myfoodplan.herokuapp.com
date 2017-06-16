@@ -3,12 +3,12 @@
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field
 from django import forms
-
+import datetime
 # форма логина
 from django.db.models import BLANK_CHOICE_DASH
-from django.forms import Form, CharField, TextInput, ChoiceField, ModelChoiceField, ModelForm, FloatField
+from django.forms import Form, CharField, TextInput, ChoiceField, ModelChoiceField, ModelForm, FloatField, DateField
 
-from plan.models import Product, ProductType, Recipe
+from plan.models import Product, ProductType, Recipe, DailyPlan, RecipePart
 
 
 def subdict(form, keyset):
@@ -23,6 +23,15 @@ def getProducts():
         for eq in Product.objects.filter(tp=i).order_by('name'):
             lst.append([eq.id, str(eq)])
         equipments.append([i.name, lst])
+
+    return equipments + BLANK_CHOICE_DASH
+
+
+# получить список оборудования
+def getPlans():
+    equipments = []
+    for i in DailyPlan.objects.all().order_by('date'):
+        equipments.append([i.pk, i])
 
     return equipments + BLANK_CHOICE_DASH
 
@@ -95,7 +104,8 @@ class ProductSingleForm(Form):
 class ProductForm(ModelForm):
     class Meta:
         model = Product
-        fields = {'dimention', 'name', 'proteins', 'fats', 'carbohydrates', 'caloricity', 'tp', 'cnt', 'dt', 'water'}
+        fields = {'dimention', 'name', 'proteins', 'fats', 'carbohydrates', 'caloricity', 'tp', 'cnt', 'dt', 'water',
+                  'remain'}
         widgets = {
             'name': TextInput(attrs={'placeholder': 'Изделие'}),
         }
@@ -110,7 +120,8 @@ class ProductForm(ModelForm):
             'tp': 'Тип',
             'cnt': 'Кол-во в упаковке',
             'dt': 'срок годности',
-            'water': 'воды мл.'
+            'water': 'воды мл.',
+            'remain': 'остаток'
         }
 
         error_messages = {
@@ -147,7 +158,7 @@ class RecipeForm(ModelForm):
 
     class Meta:
         model = Recipe
-        fields = {'name', 'instruction'}
+        fields = {'name', 'instruction', 'remain'}
         widgets = {
             'name': TextInput(attrs={'placeholder': 'Изделие'}),
             'instruction': forms.Textarea(attrs={'cols': 80, 'rows': 10}),
@@ -156,6 +167,7 @@ class RecipeForm(ModelForm):
         labels = {
             'name': 'Название',
             'instruction': 'Инструкция',
+            'remain': 'Остаток'
         }
 
         error_messages = {
@@ -191,3 +203,51 @@ class RecipePortionForm(Form):
         self.fields['cnt'].initial = 0
         self.fields['product'].required = False
         self.fields['cnt'].required = False
+
+
+# форма для добавления новых изделий
+class AddDailyPlanForm(Form):
+    date = DateField(label="Дата")
+
+    def __init__(self, *args, **kwargs):
+        super(AddDailyPlanForm, self).__init__(*args, **kwargs)
+        self.fields['date'].widget.attrs['id'] = 'datepicker'
+
+
+class DailyPlanSingleForm(Form):
+    equipment = ChoiceField(label="")
+
+    def __init__(self, *args, **kwargs):
+        super(DailyPlanSingleForm, self).__init__(*args, **kwargs)
+        self.fields['equipment'].choices = getPlans()
+        self.fields['equipment'].widget.attrs['class'] = 'beautiful-select'
+        self.fields['equipment'].widget.attrs['id'] = 'equipment'
+
+
+
+
+# форма оборудования
+class RecipePartForm(ModelForm):
+    class Meta:
+        model = RecipePart
+        fields = {'cnt', 'eatPart', 'tm','recipe'}
+        widgets = {
+
+        }
+
+        labels = {
+            'cnt': '',
+            'eatPart': '',
+            'tm': '',
+            'recipe': '',
+        }
+
+        error_messages = {
+            'name': {'invalid': '', 'invalid_choice': ''},
+        }
+
+    def __init__(self, *args, **kwargs):
+        # first call parent's constructor
+        super(RecipePartForm, self).__init__(*args, **kwargs)
+
+

@@ -14,7 +14,7 @@
 <a href="/products/" class="btn btn-info">Продукты</a>
 
 <a href="/recipes/" class="btn btn-default">Рецепты</a>
-<a href="/plan/" class="btn btn-default">План</a>
+<a href="/plans/" class="btn btn-default">План</a>
 <a href="/buy/" class="btn btn-default">Покупки</a>
 {% endblock %}
 {% block sub_content %}
@@ -40,8 +40,9 @@
     <tr>
          <td valign= "center"> {%  bootstrap_field form.water %}</td>
          <td valign= "center"> {%  bootstrap_field form.dimention %}</td>
-         <td valign= "center"> <input  align="center" class="btn btn-primary" type="submit" value="Сохранить" class="button"/></td>
-         <td><a href='/product/delete/{{pk}}/'  class="btn btn-danger" onclick="YNconfirm(); return false;">Удалить</a>
+         <td valign= "center"> {%  bootstrap_field form.remain %}</td>
+         <td valign= "center"> <input  align="center" class="btn btn-primary" type="submit" value="Сохранить" class="button"/>
+             <a href='/product/delete/{{pk}}/'  class="btn btn-danger" onclick="YNconfirm(); return false;">Удалить</a></td>
     </tr>
 
 </table>

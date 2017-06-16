@@ -14,30 +14,12 @@
 <a href="/products/" class="btn btn-default">Продукты</a>
 
 <a href="/recipes/" class="btn btn-info">Рецепты</a>
-<a href="/plans/" class="btn btn-default">План</a>
+<a href="/plans/" class="btn btn-info">План</a>
 <a href="/buy/" class="btn btn-default">Покупки</a>
 {% endblock %}
 {% block sub_content %}
 <br>
-<h3 align="center"> Энергетическая ценность блюда</h3>
-<table align="center">
-    <tr>
-        <td>Калорийность</td>
-        <td>Белки</td>
-        <td>Жиры</td>
-        <td>Углеводы</td>
-        <td>Вес</td>
-        <td>Вода</td>
-    </tr>
-    <tr>
-        <td>{{r.caloricity|floatformat}}</td>
-        <td>{{r.proteins|floatformat}}</td>
-        <td>{{r.fats|floatformat}}</td>
-        <td>{{r.carbohydrates|floatformat}}</td>
-        <td>{{r.weight|floatformat}}</td>
-        <td>{{r.water|floatformat}}</td>
-    </tr>
-</table>
+
 <form method="post" class="formset_form">
     {% csrf_token %}
 
@@ -45,13 +27,9 @@
     <table><tr><td valign="top" rowspan="2">
     <table width="90%" align="center">
         <tr>
-            <td>{% bootstrap_field form.name %}</td>
-            <td>{% bootstrap_field form.eat %}</td>
-            <td>{% bootstrap_field form.remain %}</td>
-        <tr>
-        </tr>
-            <td colspan="3">{% bootstrap_field form.instruction %}</td>
-
+            <td>{% bootstrap_field form.date %}</td>
+     <td> <a href='/recipe/delete/{{pk}}/'  class="btn btn-danger" onclick="YNconfirm(); return false;">Удалить</a></td>
+        <td><input align="center" class="btn btn-primary" type="submit" value="Сохранить" class="button"/> </td>
         </tr>
     </table>
     </td>
@@ -77,8 +55,7 @@
             </table>
         </td></tr><tr><td valign="bottom">
   <div align="center">
-        <a href='/recipe/delete/{{pk}}/'  class="btn btn-danger" onclick="YNconfirm(); return false;">Удалить</a>
-        <input align="center" class="btn btn-primary" type="submit" value="Сохранить" class="button"/>
+
     </div>
     <br>
     <a href="/recipe/" hidden id="deleteLin123"></a>
