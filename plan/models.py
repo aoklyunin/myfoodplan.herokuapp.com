@@ -159,15 +159,15 @@ class Recipe(models.Model):
                         ns = ProductPortion.objects.create(product=Product.objects.get(pk=int(d["product"])),
                                                            count=float(d["cnt"]))
                         ns.save()
-
+                        print(d["cnt"])
                         self.products.add(ns)
                         p = Product.objects.get(pk=int(d["product"]))
-                        self.proteins += p.proteins
-                        self.fats += p.fats
-                        self.carbohydrates += p.carbohydrates
-                        self.caloricity += p.caloricity
+                        self.proteins += p.proteins*d["cnt"]*10
+                        self.fats += p.fats*d["cnt"]*10
+                        self.carbohydrates += p.carbohydrates*d["cnt"]*10
+                        self.caloricity += p.caloricity*d["cnt"]*10
                         self.weight += d["cnt"]
-                        self.water += p.water
+                        self.water += p.water*d["cnt"]*10
                         self.save()
                     except:
                         print("ошибка работы формы из формсета gen-equipment")
