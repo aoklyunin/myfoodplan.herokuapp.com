@@ -169,7 +169,6 @@ class Recipe(models.Model):
                         self.weight += d["cnt"]
                         self.water += p.water
                         self.save()
-
                     except:
                         print("ошибка работы формы из формсета gen-equipment")
                 else:
