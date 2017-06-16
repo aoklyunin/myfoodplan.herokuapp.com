@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^recipe/detail/(?P<recipe_id>[0-9]+)/$$', plan.views.detailRecipe),
     url(r'^recipe/delete/(?P<recip_id>[0-9]+)/$$', plan.views.deleteRecipe),
     url(r'^recipes/$', plan.views.recipes),
+    url(r'^login/$', plan.auth.login),
     url(r'^plan/$', plan.views.plan),
     url(r'^buy/$', plan.views.buy),
     url(r'^', plan.views.index, name='index'),

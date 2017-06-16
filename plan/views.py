@@ -140,22 +140,22 @@ def detailRecipe(request, recipe_id):
             eq.instruction = form.cleaned_data['instruction']
             S = 0
             for i in form.cleaned_data['eat']:
-                S += 2**int(i)
+                S += 2 ** int(i)
             eq.eatEnable = S
-           # print(eq.eatEnable)
+            # print(eq.eatEnable)
             eq.name = form.cleaned_data['name']
             eq.save()
         equipment_formset = RecipePortionFormset(request.POST, request.FILES, prefix='equipment')
         eq.addFromFormset(equipment_formset, True)
 
-  #  print(eq.getEatChoices())
+        #  print(eq.getEatChoices())
     ef = RecipeForm(instance=eq, prefix="main_form", initial={'eat': eq.getEatChoices()})
 
     c = {'login_form': LoginForm(),
          'one': '1',
          'pk': eq.pk,
          'form': ef,
-         'r':eq,
+         'r': eq,
          'formsetNames': ['equipment'],
          'pageTitleHeader': 'Рецепты',
          'equipment_formset': RecipePortionFormset(initial=eq.generateData(), prefix='equipment')
