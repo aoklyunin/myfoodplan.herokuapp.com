@@ -126,6 +126,8 @@ class Recipe(models.Model):
     access = models.BooleanField(default=True)
     # остаток на складе
     remain = models.FloatField(default=0)
+    # кол-во порций
+    portionCnt = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name

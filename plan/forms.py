@@ -158,7 +158,7 @@ class RecipeForm(ModelForm):
 
     class Meta:
         model = Recipe
-        fields = {'name', 'instruction', 'remain'}
+        fields = {'name', 'instruction', 'remain','portionCnt'}
         widgets = {
             'name': TextInput(attrs={'placeholder': 'Изделие'}),
             'instruction': forms.Textarea(attrs={'cols': 80, 'rows': 10}),
@@ -167,7 +167,8 @@ class RecipeForm(ModelForm):
         labels = {
             'name': 'Название',
             'instruction': 'Инструкция',
-            'remain': 'Остаток'
+            'remain': 'Остаток',
+            'portionCnt': 'Кол-во порций'
         }
 
         error_messages = {

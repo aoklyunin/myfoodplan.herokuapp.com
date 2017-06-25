@@ -149,6 +149,7 @@ def detailRecipe(request, recipe_id):
             # print(eq.eatEnable)
             eq.name = form.cleaned_data['name']
             eq.remain = form.cleaned_data["remain"]
+            eq.portionCnt = form.cleaned_data["portionCnt"]
             eq.save()
         equipment_formset = RecipePortionFormset(request.POST, request.FILES, prefix='equipment')
         eq.addFromFormset(equipment_formset, True)
