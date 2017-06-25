@@ -128,7 +128,9 @@ class Recipe(models.Model):
     remain = models.FloatField(default=0)
     # кол-во порций
     portionCnt = models.IntegerField(default=0)
-
+    # категория
+    category = models.IntegerField(default=0)
+    
     def __str__(self):
         return self.name
 

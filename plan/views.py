@@ -110,7 +110,7 @@ def recipes(request):
         'chooseForm': RecipeSingleForm(prefix="eq_form"),
         'addForm': AddRecipeForm(prefix="main_form"),
         'pageTitleHeader': 'Рецепты',
-        'chooseHeader': 'Выберите рецпт, который Вы хотите поменять',
+        'chooseHeader': 'Выберите рецепт, который Вы хотите поменять',
         'chooseLabel': 'Добавить рецепт',
         'creationUrl': '/recipe/add/'
     }
