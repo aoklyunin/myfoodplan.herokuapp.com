@@ -178,6 +178,7 @@ class RecipeForm(ModelForm):
     def __init__(self, *args, **kwargs):
         # first call parent's constructor
         super(RecipeForm, self).__init__(*args, **kwargs)
+        self.fields['instruction'].required = False
 
 
 # форма для добавления новых изделий
