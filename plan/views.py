@@ -111,7 +111,7 @@ def recipes(request):
         'addForm': AddRecipeForm(prefix="main_form"),
         'pageTitleHeader': 'Рецепты',
         'chooseHeader': 'Выберите рецепт, который Вы хотите поменять',
-        'chooseLabel': 'Добавить рецепт',
+        'chooseLabel': 'Выбрать рецепт',
         'creationUrl': '/recipe/add/'
     }
     return render(request, "plan/recipes.html", c)
@@ -187,11 +187,11 @@ def plans(request):
 
     c = {
         'chooseForm': DailyPlanSingleForm(prefix="eq_form"),
-        'addForm': AddDailyPlanForm(prefix="main_form",initial=datetime.date.today),
+        'addForm': AddDailyPlanForm(prefix="main_form", initial={'date': datetime.date.today}),
         'pageTitleHeader': 'Примы пищи',
         'chooseHeader': 'Выберите приём пищи, который Вы хотите поменять',
         'creationUrl': '/plan/add/',
-        'chooseLabel': 'Добавить приём пищи',
+        'chooseLabel': 'Выбрать день',
     }
     return render(request, "plan/plans.html", c)
 
@@ -226,7 +226,7 @@ def detailPlan(request, plan_id):
         eq.addFromFormset(equipment_formset, True)
 
         #  print(eq.getEatChoices())
-    ef = AddDailyPlanForm(initial=eq.date, prefix="main_form")
+    ef = AddDailyPlanForm(initial={'date': eq.date}, prefix="main_form")
 
     c = {'login_form': LoginForm(),
          'one': '1',
@@ -248,6 +248,15 @@ def deletePlan(request, plan_id):
 
 
 def buy(request):
+    c = {
+        'pageTitleHeader': 'Главная',
+        'login_form': LoginForm(),
+        'it': InfoText.objects.get(pageName="constructor_index"),
+    }
+    return render(request, "constructors/index.html", c)
+
+
+def balance(request):
     c = {
         'pageTitleHeader': 'Главная',
         'login_form': LoginForm(),

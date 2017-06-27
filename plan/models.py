@@ -38,6 +38,17 @@ class ProductType(models.Model):
         return self.name
 
 
+# типы продуктов
+class RecipeType(models.Model):
+    name = models.CharField(max_length=300, default="")
+
+    def __str__(self):
+        return self.name
+
+    def __unicode__(self):
+        return self.name
+
+
 class RemainPortion(models.Model):
     # кол-во
     cnt = models.IntegerField(default=1)
@@ -126,10 +137,6 @@ class Recipe(models.Model):
     access = models.BooleanField(default=True)
     # остаток на складе
     remain = models.FloatField(default=0)
-    # кол-во порций
-    portionCnt = models.IntegerField(default=0)
-    # категория
-    category = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -173,6 +180,11 @@ class Recipe(models.Model):
                         self.fats += p.fats * d["cnt"] * 10
                         self.carbohydrates += p.carbohydrates * d["cnt"] * 10
                         self.caloricity += p.caloricity * d["cnt"] * 10
+                        print(p.caloricity)
+                        print(d["cnt"])
+                        print(d["cnt"] * p.caloricity)
+                        print(p.caloricity * d["cnt"] * 10)
+                        print("--------------")
                         self.weight += d["cnt"]
                         self.water += p.water * d["cnt"] * 10
                         self.save()
@@ -217,13 +229,14 @@ class DailyPlan(models.Model):
     def generateData(self):
         arr = []
         for ns in self.rParts.all():
-            if (ns.product != None):
+            if (ns.recipe != None):
                 arr.append({'recipe': str(ns.recipe.pk),
-                            'cnt': str(ns.count),
+                            'cnt': str(ns.cnt),
                             'eatPart': str(ns.eatPart.pk),
                             'tm': str(ns.tm),
 
                             })
+       # print(arr)
         return arr
 
     def addFromFormset(self, formset, doCrear=False):
@@ -237,10 +250,11 @@ class DailyPlan(models.Model):
                 if form.is_valid:
                     try:
                         d = form.cleaned_data
-                        ns = RecipePart.objects.create(recipe=Recipe.objects.get(pk=int(d["recipe"])),
+                        #print(d)
+                        ns = RecipePart.objects.create(recipe=d["recipe"],
                                                        cnt=float(d["cnt"]),
-                                                       tm=float(d["tm"]),
-                                                       eatPart=EatPart.objects.get(pk=int(d["eatPart"])),
+                                                       tm=d["tm"],
+                                                       eatPart=d["eatPart"],
                                                        )
                         ns.save()
                         # print(d["cnt"])
@@ -250,3 +264,6 @@ class DailyPlan(models.Model):
                         print("ошибка работы формы из формсета gen-equipment")
                 else:
                     print("for is not valid")
+
+    def __str__(self):
+        return str(self.date)

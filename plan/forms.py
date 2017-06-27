@@ -30,7 +30,7 @@ def getProducts():
 # получить список оборудования
 def getPlans():
     equipments = []
-    for i in DailyPlan.objects.all().order_by('date'):
+    for i in DailyPlan.objects.all().order_by('-date'):
         equipments.append([i.pk, i])
 
     return equipments + BLANK_CHOICE_DASH
@@ -158,7 +158,7 @@ class RecipeForm(ModelForm):
 
     class Meta:
         model = Recipe
-        fields = {'name', 'instruction', 'remain','portionCnt'}
+        fields = {'name', 'instruction', 'remain'}
         widgets = {
             'name': TextInput(attrs={'placeholder': 'Изделие'}),
             'instruction': forms.Textarea(attrs={'cols': 80, 'rows': 10}),
@@ -168,7 +168,7 @@ class RecipeForm(ModelForm):
             'name': 'Название',
             'instruction': 'Инструкция',
             'remain': 'Остаток',
-            'portionCnt': 'Кол-во порций'
+
         }
 
         error_messages = {
@@ -251,5 +251,7 @@ class RecipePartForm(ModelForm):
     def __init__(self, *args, **kwargs):
         # first call parent's constructor
         super(RecipePartForm, self).__init__(*args, **kwargs)
-
+        self.fields['eatPart'].required = False
+        self.fields['tm'].widget = forms.TimeInput(format='%H:%M')
+        self.fields['tm'].widget.attrs['class'] = 'timepicker123'
 

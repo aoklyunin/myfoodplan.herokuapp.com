@@ -13,9 +13,10 @@
 <a href="/" class="btn btn-default">Главная</a>
 <a href="/products/" class="btn btn-default">Продукты</a>
 
-<a href="/recipes/" class="btn btn-info">Рецепты</a>
+<a href="/recipes/" class="btn btn-default">Рецепты</a>
 <a href="/plans/" class="btn btn-info">План</a>
 <a href="/buy/" class="btn btn-default">Покупки</a>
+<a href="/balance/" class="btn btn-default">Баланс</a>
 {% endblock %}
 {% block sub_content %}
 <br>
@@ -24,16 +25,19 @@
     {% csrf_token %}
 
     {{ form.management_form }}
-    <table><tr><td valign="top" rowspan="2">
-    <table width="90%" align="center">
-        <tr>
-            <td>{% bootstrap_field form.date %}</td>
-     <td> <a href='/recipe/delete/{{pk}}/'  class="btn btn-danger" onclick="YNconfirm(); return false;">Удалить</a></td>
-        <td><input align="center" class="btn btn-primary" type="submit" value="Сохранить" class="button"/> </td>
-        </tr>
-    </table>
-    </td>
-        <td valign="top">
+    <table align="center">
+        <tr><td valign="top" >
+
+            <table width="90%" align="center">
+            <tr>
+                <td>{% bootstrap_field form.date %}</td>
+                <td> <a href='/recipe/delete/{{pk}}/'  class="btn btn-danger" onclick="YNconfirm(); return false;">Удалить</a></td>
+
+                </tr>
+            </table>
+        </td></tr>
+        <tr><td valign="top">
+
     {{ equipment_formset.management_form }}
 
 
@@ -42,24 +46,34 @@
             <thead>
                 <tr>
                     <td align="center">Продукт</td>
-                    <td align="center">Вес в кг.</td>
+                    <td align="center">Кол-во порций</td>
+                    <td align="center">Приём пищи</td>
+                    <td align="center">Время приёма</td>
                 </tr>
             </thead>
             {% for link_form in equipment_formset %}
                 <tr class="equipment-formset">
-                    <td valign="top">{% bootstrap_field link_form.product %}</td>
+                    <td valign="top">{% bootstrap_field link_form.recipe %}</td>
                     <td valign="top" width="20%">{% bootstrap_field link_form.cnt %}</td>
+                    <td valign="top" width="20%">{% bootstrap_field link_form.eatPart %}</td>
+                    <td valign="top" width="20%">{% bootstrap_field link_form.tm %}</td>
                 </tr>
             {% endfor %}
             <div class="placeForAddBtn"></div>
             </table>
-        </td></tr><tr><td valign="bottom">
-  <div align="center">
+        </td></tr>
+        <tr>
+            <td align="center"><input align="center" class="btn btn-primary" type="submit" value="Сохранить" class="button"/> </td>
+        </tr>
+        <tr><td valign="bottom">
+            <div align="center">
 
-    </div>
-    <br>
-    <a href="/recipe/" hidden id="deleteLin123"></a>
-</td></tr></table>
+            </div>
+            <br>
+            <a href="/recipe/" hidden id="deleteLin123"></a>
+
+        </td></tr>
+    </table>
 
 </form>
 

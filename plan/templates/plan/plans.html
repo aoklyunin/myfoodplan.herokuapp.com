@@ -17,6 +17,8 @@ recipes.html{% extends "main/choosePage.html" %}
 <a href="/recipes/" class="btn btn-default">Рецепты</a>
 <a href="/plans/" class="btn btn-info">План</a>
 <a href="/buy/" class="btn btn-default">Покупки</a>
+<a href="/balance/" class="btn btn-default">Баланс</a>
+
 {% endblock %}
 {% block creationForm %}
     <br>
@@ -29,7 +31,7 @@ recipes.html{% extends "main/choosePage.html" %}
     <tr>
         <td valign= "center"> {%  bootstrap_field addForm.date %}</td>
 
-       <td valign= "center"> <input  align="center" class="btn btn-primary" type="submit" value="Добавить Приём пищи" class="button"/></td>
+       <td valign= "center"> <input  align="center" class="btn btn-primary" type="submit" value="Добавить день" class="button"/></td>
     </tr>
 </table>
 </form>

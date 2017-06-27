@@ -30,5 +30,6 @@ urlpatterns = [
     url(r'^plans/$', plan.views.plans),
     url(r'^login/$', plan.auth.login),
     url(r'^buy/$', plan.views.buy),
+    url(r'^balance/$', plan.views.balance),
     url(r'^', plan.views.index, name='index'),
 ]
