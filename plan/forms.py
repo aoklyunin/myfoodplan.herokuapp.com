@@ -104,15 +104,14 @@ class ProductSingleForm(Form):
 class ProductForm(ModelForm):
     class Meta:
         model = Product
-        fields = {'dimention', 'name', 'proteins', 'fats', 'carbohydrates', 'caloricity', 'tp', 'cnt', 'dt', 'water',
-                  'remain'}
+        fields = { 'name', 'proteins', 'fats', 'carbohydrates', 'caloricity', 'tp', 'cnt', 'dt', 'water',
+                  'remain', 'inSmallSpoon', 'inBigSpoon', 'inUnit','density',}
         widgets = {
             'name': TextInput(attrs={'placeholder': 'Изделие'}),
         }
 
         labels = {
             'name': 'Название',
-            'dimention': 'Единица измерения',
             'proteins': 'Белки',
             'fats': 'Жиры',
             'carbohydrates': 'Углеводы',
@@ -121,7 +120,11 @@ class ProductForm(ModelForm):
             'cnt': 'Кол-во в упаковке',
             'dt': 'срок годности',
             'water': 'воды мл.',
-            'remain': 'остаток'
+            'remain': 'остаток',
+            'inSmallSpoon': 'в чайной ложке',
+            'inBigSpoon': 'в столовой ложке',
+            'inUnit': 'вес штуки',
+            'density': 'плотность',
         }
 
         error_messages = {
@@ -145,13 +148,11 @@ class RecipeSingleForm(Form):
         self.fields['equipment'].widget.attrs['id'] = 'equipment'
 
 
-
 # форма оборудования
 class RecipeForm(ModelForm):
-
     class Meta:
         model = Recipe
-        fields = {'name', 'instruction', 'remain','eatParts'}
+        fields = {'name', 'instruction', 'remain', 'eatParts'}
         widgets = {
             'name': TextInput(attrs={'placeholder': 'Изделие'}),
             'instruction': forms.Textarea(attrs={'cols': 80, 'rows': 10}),
@@ -219,13 +220,11 @@ class DailyPlanSingleForm(Form):
         self.fields['equipment'].widget.attrs['id'] = 'equipment'
 
 
-
-
 # форма оборудования
 class RecipePartForm(ModelForm):
     class Meta:
         model = RecipePart
-        fields = {'cnt', 'eatPart', 'tm','recipe'}
+        fields = {'cnt', 'eatPart', 'tm', 'recipe'}
         widgets = {
 
         }
@@ -247,4 +246,3 @@ class RecipePartForm(ModelForm):
         self.fields['eatPart'].required = False
         self.fields['tm'].widget = forms.TimeInput(format='%H:%M')
         self.fields['tm'].widget.attrs['class'] = 'timepicker123'
-

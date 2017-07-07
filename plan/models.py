@@ -64,8 +64,6 @@ class RemainPortion(models.Model):
 
 # продукты
 class Product(models.Model):
-    # единица измерения
-    dimention = models.CharField(max_length=200, default="г.")
     # имя
     name = models.CharField(max_length=200, default="")
     # белки на 100 г.
@@ -88,9 +86,23 @@ class Product(models.Model):
     water = models.FloatField(default=0)
     # остаток
     remain = models.FloatField(default=0)
+    # вес в стакане
+    inGlass = models.IntegerField(default=0)
+    # вес в чайной ложке
+    inSmallSpoon = models.IntegerField(default=0)
+    # вес в столовой ложке
+    inBigSpoon = models.IntegerField(default=0)
+    # вес одной штуки
+    inUnit = models.IntegerField(default=0)
+    # плотность
+    density = models.IntegerField(default=0)
 
     def __str__(self):
-        return str(self.name) + "(" + str(self.dimention) + ")"
+        if (self.inUnit == 0):
+            addStr = str(self.inSmallSpoon) + "/" + str(self.inBigSpoon) + "/" + str(self.inGlass)
+        else:
+            addStr = str(self.inUnit)
+        return str(self.name) + " (" + addStr + ")"
 
     def __unicode__(self):
         return str(self.name) + "(" + str(self.dimention) + ")"

@@ -39,9 +39,14 @@
         <td valign= "center"> {%  bootstrap_field form.caloricity %}</td>
     </tr>
     <tr>
-         <td valign= "center"> {%  bootstrap_field form.water %}</td>
-         <td valign= "center"> {%  bootstrap_field form.dimention %}</td>
-         <td valign= "center"> {%  bootstrap_field form.remain %}</td>
+          <td valign= "center"> {%  bootstrap_field form.water %}</td>
+          <td valign= "center"> {%  bootstrap_field form.remain %}</td>
+          <td valign= "center"> {%  bootstrap_field form.inSmallSpoon %}</td>
+          <td valign= "center"> {%  bootstrap_field form.inBigSpoon %}</td>
+    </tr>
+    <tr>
+         <td valign= "center"> {%  bootstrap_field form.inUnit %}</td>
+         <td valign= "center"> {%  bootstrap_field form.density %}</td>
          <td valign= "center"> <input  align="center" class="btn btn-primary" type="submit" value="Сохранить" class="button"/>
              <a href='/product/delete/{{pk}}/'  class="btn btn-danger" onclick="YNconfirm(); return false;">Удалить</a></td>
     </tr>
