@@ -20,23 +20,23 @@
 {% endblock %}
 {% block sub_content %}
 <br>
-<h3 align="center"> Энергетическая ценность блюда</h3>
+<h3 align="center"> Энергетическая ценность порции</h3>
 <table align="center">
     <tr>
         <td>Калорийность</td>
         <td>Белки</td>
         <td>Жиры</td>
         <td>Углеводы</td>
-        <td>Вес</td>
         <td>Вода</td>
+        <td>Вес</td>
     </tr>
     <tr>
         <td>{{r.caloricity|floatformat}}</td>
         <td>{{r.proteins|floatformat}}</td>
         <td>{{r.fats|floatformat}}</td>
         <td>{{r.carbohydrates|floatformat}}</td>
+         <td>{{r.water|floatformat}}</td>
         <td>{{r.weight|floatformat}}</td>
-        <td>{{r.water|floatformat}}</td>
     </tr>
 </table>
 <form method="post" class="formset_form">
@@ -44,16 +44,17 @@
 
     {{ form.management_form }}
     <table><tr><td valign="top" rowspan="2">
-    <table width="90%" align="center">
+    <table width="90%" align="center" >
         <tr>
             <td>{% bootstrap_field form.name %}</td>
-            <td>{% bootstrap_field form.eat %}</td>
-            <td>{% bootstrap_field form.remain %}</td>
-            <td>{% bootstrap_field form.portionCnt %}</td>
+             <td rowspan="4">{% bootstrap_field form.instruction %}</td>
         <tr>
-        </tr>
-            <td colspan="4">{% bootstrap_field form.instruction %}</td>
+        <tr>
+            <td>{% bootstrap_field form.remain %}</td>
 
+        </tr>
+        <tr>
+            <td>{% bootstrap_field form.eatParts %}</td>
         </tr>
     </table>
     </td>
@@ -61,12 +62,12 @@
     {{ equipment_formset.management_form }}
 
 
-            <h2 align="center"> Зависит от: </h2>
+            <h2 align="center"> На одну порцию: </h2>
             <table cellspacing="3" cellpadding="7" width="90%" align="center">
             <thead>
                 <tr>
                     <td align="center">Продукт</td>
-                    <td align="center">Вес в кг.</td>
+                    <td align="center">Вес в г.</td>
                 </tr>
             </thead>
             {% for link_form in equipment_formset %}

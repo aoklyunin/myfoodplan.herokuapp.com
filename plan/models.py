@@ -38,7 +38,7 @@ class ProductType(models.Model):
         return self.name
 
 
-# типы продуктов
+# типы рецептов
 class RecipeType(models.Model):
     name = models.CharField(max_length=300, default="")
 
@@ -124,25 +124,22 @@ class Recipe(models.Model):
     carbohydrates = models.FloatField(default=0)
     # калорийность на 100 г.
     caloricity = models.FloatField(default=0)
-    # вес
+    # вес в граммах
     weight = models.FloatField(default=0)
     # воды
     water = models.FloatField(default=0)
-    # когда можно употреблять
-    # определяется по маске первый бит - завтрак, второй бит - второй завтрак,
-    # третий - обед, четвёртый - полдник, пятый - ужин
-    # если 0 - можно, если 1 - нет
-    eatEnable = models.IntegerField(default=0)
+    # приёмы пищи
+    eatParts = models.ManyToManyField(EatPart, blank=True)
     # можно ли сейчас формировать меню с рецаптами
     access = models.BooleanField(default=True)
     # остаток на складе
     remain = models.FloatField(default=0)
 
     def __str__(self):
-        return self.name
+        return self.name + "(" + str(self.caloricity) + " ккалл)"
 
     def __unicode__(self):
-        return self.name
+        return self.name + "(" + str(self.caloricity) + " ккалл)"
 
     def generateData(self):
         arr = []
@@ -176,17 +173,12 @@ class Recipe(models.Model):
                         # print(d["cnt"])
                         self.products.add(ns)
                         p = Product.objects.get(pk=int(d["product"]))
-                        self.proteins += p.proteins * d["cnt"] * 10
-                        self.fats += p.fats * d["cnt"] * 10
-                        self.carbohydrates += p.carbohydrates * d["cnt"] * 10
-                        self.caloricity += p.caloricity * d["cnt"] * 10
-                        print(p.caloricity)
-                        print(d["cnt"])
-                        print(d["cnt"] * p.caloricity)
-                        print(p.caloricity * d["cnt"] * 10)
-                        print("--------------")
+                        self.proteins += p.proteins * d["cnt"] / 100
+                        self.fats += p.fats * d["cnt"] / 100
+                        self.carbohydrates += p.carbohydrates * d["cnt"] / 100
+                        self.caloricity += p.caloricity * d["cnt"] / 100
                         self.weight += d["cnt"]
-                        self.water += p.water * d["cnt"] * 10
+                        self.water += p.water * d["cnt"] / 100
                         self.save()
                     except:
                         print("ошибка работы формы из формсета gen-equipment")
@@ -225,6 +217,18 @@ class RecipePart(models.Model):
 class DailyPlan(models.Model):
     date = models.DateField(default=datetime.datetime.today())
     rParts = models.ManyToManyField(RecipePart)
+    # белки на 100 г.
+    proteins = models.FloatField(default=0)
+    # жиры на 100 г.
+    fats = models.FloatField(default=0)
+    # углеводы на 100 г.
+    carbohydrates = models.FloatField(default=0)
+    # калорийность на 100 г.
+    caloricity = models.FloatField(default=0)
+    # вес
+    weight = models.FloatField(default=0)
+    # воды
+    water = models.FloatField(default=0)
 
     def generateData(self):
         arr = []
@@ -236,7 +240,7 @@ class DailyPlan(models.Model):
                             'tm': str(ns.tm),
 
                             })
-       # print(arr)
+                # print(arr)
         return arr
 
     def addFromFormset(self, formset, doCrear=False):
@@ -250,7 +254,7 @@ class DailyPlan(models.Model):
                 if form.is_valid:
                     try:
                         d = form.cleaned_data
-                        #print(d)
+                        # print(d)
                         ns = RecipePart.objects.create(recipe=d["recipe"],
                                                        cnt=float(d["cnt"]),
                                                        tm=d["tm"],

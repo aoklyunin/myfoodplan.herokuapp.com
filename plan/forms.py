@@ -8,7 +8,7 @@ import datetime
 from django.db.models import BLANK_CHOICE_DASH
 from django.forms import Form, CharField, TextInput, ChoiceField, ModelChoiceField, ModelForm, FloatField, DateField
 
-from plan.models import Product, ProductType, Recipe, DailyPlan, RecipePart
+from plan.models import Product, ProductType, Recipe, DailyPlan, RecipePart, EatPart
 
 
 def subdict(form, keyset):
@@ -145,20 +145,13 @@ class RecipeSingleForm(Form):
         self.fields['equipment'].widget.attrs['id'] = 'equipment'
 
 
+
 # форма оборудования
 class RecipeForm(ModelForm):
-    eat = forms.MultipleChoiceField(
-        choices=(
-            (0, 'завтрак'),
-            (1, 'обед'),
-            (2, 'полдник'),
-            (3, 'ужин'),
-        ),
-        label="Когда можно есть", required=False)
 
     class Meta:
         model = Recipe
-        fields = {'name', 'instruction', 'remain'}
+        fields = {'name', 'instruction', 'remain','eatParts'}
         widgets = {
             'name': TextInput(attrs={'placeholder': 'Изделие'}),
             'instruction': forms.Textarea(attrs={'cols': 80, 'rows': 10}),
@@ -168,7 +161,7 @@ class RecipeForm(ModelForm):
             'name': 'Название',
             'instruction': 'Инструкция',
             'remain': 'Остаток',
-
+            'eatParts': 'Приёмы пищи',
         }
 
         error_messages = {

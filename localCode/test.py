@@ -2564,9 +2564,12 @@ for k, v in arr.items():
     if created:
         p.save()
     for a in v:
-        b = Product.objects.create(name=a[0], caloricity=a[1], fats=a[2], proteins=a[3], carbohydrates=a[4],tp=p)
-        if a[5] != "":
-            b.water = a[5]
+        try:
+            b = Product.objects.create(name=a[0], caloricity=a[1], fats=a[2], proteins=a[3], carbohydrates=a[4],tp=p)
+            if a[5] != "":
+                b.water = a[5]
 
-        b.save()
-        print(b)
+            b.save()
+            print(b)
+        except:
+            pass

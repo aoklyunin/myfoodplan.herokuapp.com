@@ -142,20 +142,19 @@ def detailRecipe(request, recipe_id):
         # если форма заполнена корректно
         if form.is_valid():
             eq.instruction = form.cleaned_data['instruction']
-            S = 0
-            for i in form.cleaned_data['eat']:
-                S += 2 ** int(i)
-            eq.eatEnable = S
+            eq.eatParts.clear()
+            for ep in form.cleaned_data['eatParts']:
+                eq.eatParts.add(ep)
+
             # print(eq.eatEnable)
             eq.name = form.cleaned_data['name']
             eq.remain = form.cleaned_data["remain"]
-            eq.portionCnt = form.cleaned_data["portionCnt"]
             eq.save()
         equipment_formset = RecipePortionFormset(request.POST, request.FILES, prefix='equipment')
         eq.addFromFormset(equipment_formset, True)
 
         #  print(eq.getEatChoices())
-    ef = RecipeForm(instance=eq, prefix="main_form", initial={'eat': eq.getEatChoices()})
+    ef = RecipeForm(instance=eq, prefix="main_form")
 
     c = {'login_form': LoginForm(),
          'one': '1',
@@ -182,13 +181,14 @@ def plans(request):
         eq_form = DailyPlanSingleForm(request.POST, prefix='eq_form')
         # если форма заполнена корректно
         if eq_form.is_valid():
-            eq = Product.objects.get(pk=int(eq_form.cleaned_data['equipment']))
+          #  print(eq_form.cleaned_data['equipment'])
+            eq = DailyPlan.objects.get(pk=int(eq_form.cleaned_data['equipment']))
             return HttpResponseRedirect('/plan/detail/' + str(eq.pk) + '/')
 
     c = {
         'chooseForm': DailyPlanSingleForm(prefix="eq_form"),
         'addForm': AddDailyPlanForm(prefix="main_form", initial={'date': datetime.date.today}),
-        'pageTitleHeader': 'Примы пищи',
+        'pageTitleHeader': 'Приёмы пищи',
         'chooseHeader': 'Выберите приём пищи, который Вы хотите поменять',
         'creationUrl': '/plan/add/',
         'chooseLabel': 'Выбрать день',
