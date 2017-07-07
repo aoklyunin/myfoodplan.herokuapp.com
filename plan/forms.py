@@ -104,8 +104,8 @@ class ProductSingleForm(Form):
 class ProductForm(ModelForm):
     class Meta:
         model = Product
-        fields = { 'name', 'proteins', 'fats', 'carbohydrates', 'caloricity', 'tp', 'cnt', 'dt', 'water',
-                  'remain', 'inSmallSpoon', 'inBigSpoon', 'inUnit','density',}
+        fields = {'name', 'proteins', 'fats', 'carbohydrates', 'caloricity', 'tp', 'cnt', 'dt', 'water',
+                  'remain', 'inSmallSpoon', 'inBigSpoon', 'inUnit', 'density', 'inGlass'}
         widgets = {
             'name': TextInput(attrs={'placeholder': 'Изделие'}),
         }
@@ -125,6 +125,7 @@ class ProductForm(ModelForm):
             'inBigSpoon': 'в столовой ложке',
             'inUnit': 'вес штуки',
             'density': 'плотность',
+            'inGlass': 'в стакане',
         }
 
         error_messages = {
