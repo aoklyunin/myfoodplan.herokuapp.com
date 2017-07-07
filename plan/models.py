@@ -100,6 +100,8 @@ class Product(models.Model):
     def __str__(self):
         if (self.inUnit == 0):
             addStr = str(self.inSmallSpoon) + "/" + str(self.inBigSpoon) + "/" + str(self.inGlass)
+        elif (self.inUnit==-1):
+            addStr = ""
         else:
             addStr = str(self.inUnit)
         return str(self.name) + " (" + addStr + ")"
