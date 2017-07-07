@@ -99,7 +99,7 @@ class Product(models.Model):
 # порция продукта
 class ProductPortion(models.Model):
     product = models.ForeignKey(Product)
-    count = models.FloatField(default=0)
+    count = models.IntegerField(default=0)
 
     def __str__(self):
         return str(self.product.name) + "(" + str(self.count) + " " + str(self.product.dimention) + ")"

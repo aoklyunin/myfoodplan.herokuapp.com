@@ -9,6 +9,11 @@
 {% bootstrap_javascript %}
 {% bootstrap_messages %}
 
+{% block style_block %}
+    .col1 { width: 200px; }
+{%  endblock %}
+
+
 {% block navigating %}
 <a href="/" class="btn btn-default">Главная</a>
 <a href="/products/" class="btn btn-default">Продукты</a>
@@ -72,8 +77,8 @@
             </thead>
             {% for link_form in equipment_formset %}
                 <tr class="equipment-formset">
-                    <td valign="top">{% bootstrap_field link_form.product %}</td>
-                    <td valign="top" width="20%">{% bootstrap_field link_form.cnt %}</td>
+                    <td valign="top" class="col1">{% bootstrap_field link_form.product %}</td>
+                    <td valign="top">{% bootstrap_field link_form.cnt %}</td>
                 </tr>
             {% endfor %}
             <div class="placeForAddBtn"></div>
