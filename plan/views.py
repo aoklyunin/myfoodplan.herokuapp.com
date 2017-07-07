@@ -69,6 +69,7 @@ def detailProduct(request, product_id):
             eq.inBigSpoon = form.cleaned_data['inBigSpoon']
             eq.inUnit = form.cleaned_data['inUnit']
             eq.density = form.cleaned_data['density']
+            eq.inGlass = form.cleaned_data['inGlass']
             eq.name = form.cleaned_data['name']
             eq.proteins = form.cleaned_data['proteins']
             eq.fats = form.cleaned_data['fats']
