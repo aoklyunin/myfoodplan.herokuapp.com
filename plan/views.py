@@ -65,10 +65,10 @@ def detailProduct(request, product_id):
         form = ProductForm(request.POST, prefix='main_form')
         # если форма заполнена корректно
         if form.is_valid():
-            eq.dimention = form.cleaned_data['inSmallSpoon']
-            eq.dimention = form.cleaned_data['inBigSpoon']
-            eq.dimention = form.cleaned_data['inUnit']
-            eq.dimention = form.cleaned_data['density']
+            eq.inSmallSpoon = form.cleaned_data['inSmallSpoon']
+            eq.inBigSpoon = form.cleaned_data['inBigSpoon']
+            eq.inUnit = form.cleaned_data['inUnit']
+            eq.density = form.cleaned_data['density']
             eq.name = form.cleaned_data['name']
             eq.proteins = form.cleaned_data['proteins']
             eq.fats = form.cleaned_data['fats']
