@@ -65,20 +65,22 @@
     </td>
         <td valign="top">
         {{ equipment_formset.management_form }}
-            <h2 align="center"> На одну порцию: </h2>
+            <h2 align="center"> Ингридиенты: </h2>
             <table cellspacing="3" cellpadding="7" width="90%" align="center">
             <thead>
                 <tr>
                     <td align="center">Продукт</td>
+                     <td align="center">кол-во</td>
                     <td align="center">Вес в г.</td>
-                    <td align="center">кол-во</td>
+
                 </tr>
             </thead>
             {% for link_form in equipment_formset %}
                 <tr class="equipment-formset">
                     <td valign="top">{% bootstrap_field link_form.product %}</td>
+                     <td valign="top">{% bootstrap_field link_form.cnt %}</td>
                     <td valign="top">{% bootstrap_field link_form.weight %}</td>
-                    <td valign="top">{% bootstrap_field link_form.cnt %}</td>
+
                 </tr>
             {% endfor %}
             <div class="placeForAddBtn"></div>

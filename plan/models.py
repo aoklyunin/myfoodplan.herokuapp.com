@@ -191,7 +191,7 @@ class Recipe(models.Model):
         for ns in self.products.all():
             if (ns.product != None):
                 arr.append({'product': str(ns.product.pk),
-                            'weight': str(ns.count)})
+                            'weight': str(ns.count*self.portionCnt)})
         return arr
 
     def addFromFormset(self, formset, portionCnt, doCrear=False):
@@ -213,7 +213,8 @@ class Recipe(models.Model):
                     try:
                         d = form.cleaned_data
                         if d["cnt"] != 0:
-                            d["weight"] = d["product"].getCapacityWeight()
+                            product = Product.objects.get(pk=int(d["product"]))
+                            d["weight"] = product.getCapacityWeight()
 
                         d["weight"] = d["weight"]/portionCnt
                         ns = ProductPortion.objects.create(product=Product.objects.get(pk=int(d["product"])),
@@ -232,7 +233,7 @@ class Recipe(models.Model):
                     except:
                         print("ошибка работы формы из формсета gen-equipment")
                 else:
-                    print("for is not valid")
+                        print("for is not valid")
 
     def getEatChoices(self):
         s = self.eatEnable;
