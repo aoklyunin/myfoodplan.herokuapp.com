@@ -198,7 +198,7 @@ class AddRecipeForm(Form):
 class RecipePortionForm(Form):
     product = ChoiceField(label="")
     weight = FloatField(label="")
-    cnt = IntegerField(label="")
+    cnt = FloatField(label="")
 
     def __init__(self, *args, **kwargs):
         super(RecipePortionForm, self).__init__(*args, **kwargs)

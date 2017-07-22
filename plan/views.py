@@ -142,6 +142,7 @@ def detailRecipe(request, recipe_id):
     RecipePortionFormset = formset_factory(RecipePortionForm)
     eq = Recipe.objects.get(pk=recipe_id)
     if request.method == 'POST':
+        pcnt = 1
         # строим форму на основе запроса
         form = RecipeForm(request.POST, prefix='main_form')
         # если форма заполнена корректно
@@ -156,10 +157,11 @@ def detailRecipe(request, recipe_id):
             eq.remain = form.cleaned_data["remain"]
             eq.tp = form.cleaned_data['tp']
             eq.portionCnt = form.cleaned_data['portionCnt']
-
+            pcnt = eq.portionCnt
             eq.save()
         equipment_formset = RecipePortionFormset(request.POST, request.FILES, prefix='equipment')
-        eq.addFromFormset(equipment_formset,  eq.portionCnt, True)
+        #print(pcnt)
+        eq.addFromFormset(equipment_formset,  pcnt, True)
 
         #  print(eq.getEatChoices())
     ef = RecipeForm(instance=eq, prefix="main_form")

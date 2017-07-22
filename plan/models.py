@@ -118,9 +118,9 @@ class Product(models.Model):
         else:
             if self.defaultCapacity == 0:
                 return self.inGlass
-            elif self.defaultCapacity == 0:
+            elif self.defaultCapacity == 1:
                 return self.inSmallSpoon
-            elif self.defaultCapacity == 0:
+            else:
                 return self.inBigSpoon
 
 
@@ -195,6 +195,7 @@ class Recipe(models.Model):
         return arr
 
     def addFromFormset(self, formset, portionCnt, doCrear=False):
+        #print(portionCnt)
         if (doCrear):
             for ns in self.products.all():
                 ns.delete()
@@ -212,13 +213,22 @@ class Recipe(models.Model):
                 if form.is_valid:
                     try:
                         d = form.cleaned_data
+                        d["weight"] = 0
+                        try:
+                            d["cnt"]
+                        except:
+                            d["cnt"]=0
                         if d["cnt"] != 0:
                             product = Product.objects.get(pk=int(d["product"]))
+                            #print(product.getCapacityWeight())
                             d["weight"] = product.getCapacityWeight()
-
-                        d["weight"] = d["weight"]/portionCnt
-                        ns = ProductPortion.objects.create(product=Product.objects.get(pk=int(d["product"])),
+                        print(d)
+                        d["weight"] = d["weight"] / portionCnt
+                        try:
+                            ns = ProductPortion.objects.create(product=Product.objects.get(pk=int(d["product"])),
                                                            count=float(d["weight"]))
+                        except:
+                            continue
                         ns.save()
                         # print(d["cnt"])
                         self.products.add(ns)
