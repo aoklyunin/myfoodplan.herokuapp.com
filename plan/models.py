@@ -200,12 +200,12 @@ class Recipe(models.Model):
                         self.save()
                     except:
                         print("ошибка работы формы из формсета gen-equipment")
-                        self.proteins = self.proteins / self.portionCnt
-                        self.fats = self.fats / self.portionCnt
-                        self.carbohydrates = self.carbohydrates / self.portionCnt
-                        self.caloricity = self.caloricity / self.portionCnt
-                        self.weight = self.weight / self.portionCnt
-                        self.water = self.water / self.portionCnt
+                    self.proteins = self.proteins / self.portionCnt
+                    self.fats = self.fats / self.portionCnt
+                    self.carbohydrates = self.carbohydrates / self.portionCnt
+                    self.caloricity = self.caloricity / self.portionCnt
+                    self.weight = self.weight / self.portionCnt
+                    self.water = self.water / self.portionCnt
                 else:
                     print("for is not valid")
 
