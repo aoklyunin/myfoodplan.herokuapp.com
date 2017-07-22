@@ -7,7 +7,7 @@ import datetime
 # форма логина
 from django.db.models import BLANK_CHOICE_DASH
 from django.forms import Form, CharField, TextInput, ChoiceField, ModelChoiceField, ModelForm, FloatField, DateField, \
-    Textarea
+    Textarea, IntegerField
 
 from plan.models import Product, ProductType, Recipe, DailyPlan, RecipePart, EatPart, RecipeType
 
@@ -195,6 +195,7 @@ class AddRecipeForm(Form):
 class RecipePortionForm(Form):
     product = ChoiceField(label="")
     cnt = FloatField(label="")
+    portionCnt = IntegerField(label="")
 
     def __init__(self, *args, **kwargs):
         super(RecipePortionForm, self).__init__(*args, **kwargs)
@@ -204,8 +205,10 @@ class RecipePortionForm(Form):
 
         self.fields['product'].initial = None
         self.fields['cnt'].initial = 0
+        self.fields['portionCnt'].initial = 0
         self.fields['product'].required = False
         self.fields['cnt'].required = False
+        self.fields['portionCnt'].required = False
 
 
 # форма для добавления новых изделий
