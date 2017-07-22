@@ -149,7 +149,7 @@ class Recipe(models.Model):
     # остаток на складе
     remain = models.FloatField(default=0)
     # тип
-    tp = models.ForeignKey(RecipeType, blank=True, null=True)
+    tp = models.ForeignKey(RecipeType)
     # кол-во порций
     portionCnt = models.IntegerField(default=1)
 
