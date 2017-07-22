@@ -6,9 +6,10 @@ from django import forms
 import datetime
 # форма логина
 from django.db.models import BLANK_CHOICE_DASH
-from django.forms import Form, CharField, TextInput, ChoiceField, ModelChoiceField, ModelForm, FloatField, DateField
+from django.forms import Form, CharField, TextInput, ChoiceField, ModelChoiceField, ModelForm, FloatField, DateField, \
+    Textarea
 
-from plan.models import Product, ProductType, Recipe, DailyPlan, RecipePart, EatPart
+from plan.models import Product, ProductType, Recipe, DailyPlan, RecipePart, EatPart, RecipeType
 
 
 def subdict(form, keyset):
@@ -39,8 +40,11 @@ def getPlans():
 # получить список оборудования
 def getRecipes():
     equipments = []
-    for i in Recipe.objects.all().order_by('name'):
-        equipments.append([i.pk, i])
+    for i in RecipeType.objects.all().order_by('name'):
+        lst = []
+        for eq in Recipe.objects.filter(tp=i).order_by('name'):
+            lst.append([eq.id, str(eq)])
+        equipments.append([i.name, lst])
 
     return equipments + BLANK_CHOICE_DASH
 
@@ -153,7 +157,7 @@ class RecipeSingleForm(Form):
 class RecipeForm(ModelForm):
     class Meta:
         model = Recipe
-        fields = {'name', 'instruction', 'remain', 'eatParts'}
+        fields = {'name', 'instruction', 'remain', 'eatParts', 'tp', 'portionCnt'}
         widgets = {
             'name': TextInput(attrs={'placeholder': 'Изделие'}),
             'instruction': forms.Textarea(attrs={'cols': 80, 'rows': 10}),
@@ -164,6 +168,8 @@ class RecipeForm(ModelForm):
             'instruction': 'Инструкция',
             'remain': 'Остаток',
             'eatParts': 'Приёмы пищи',
+            'tp': 'тип',
+            'portionCnt': 'кол-во порций',
         }
 
         error_messages = {
@@ -247,3 +253,12 @@ class RecipePartForm(ModelForm):
         self.fields['eatPart'].required = False
         self.fields['tm'].widget = forms.TimeInput(format='%H:%M')
         self.fields['tm'].widget.attrs['class'] = 'timepicker123'
+
+
+class RecipeAdminModelForm(ModelForm):
+    class Meta:
+        model = Recipe
+        widgets = {
+            'instruction': Textarea(attrs={'cols': 100, 'rows': 10}),
+        }
+        fields = '__all__'

@@ -52,14 +52,14 @@
     <table width="90%" align="center" >
         <tr>
             <td>{% bootstrap_field form.name %}</td>
-             <td rowspan="4">{% bootstrap_field form.instruction %}</td>
+             <td rowspan="3" colspan="2"> {% bootstrap_field form.instruction %}</td>
         <tr>
         <tr>
             <td>{% bootstrap_field form.remain %}</td>
 
         </tr>
         <tr>
-            <td>{% bootstrap_field form.eatParts %}</td>
+            <td>{% bootstrap_field form.eatParts %}</td><td>{% bootstrap_field form.portionCnt %}</td><td>{% bootstrap_field form.tp %}</td>
         </tr>
     </table>
     </td>

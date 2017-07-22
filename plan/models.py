@@ -100,7 +100,7 @@ class Product(models.Model):
     def __str__(self):
         if (self.inUnit == 0):
             addStr = str(self.inGlass) + "/" + str(self.inBigSpoon) + "/" + str(self.inSmallSpoon)
-        elif (self.inUnit==-1):
+        elif (self.inUnit == -1):
             addStr = ""
         else:
             addStr = str(self.inUnit)
@@ -116,10 +116,10 @@ class ProductPortion(models.Model):
     count = models.IntegerField(default=0)
 
     def __str__(self):
-        return str(self.product.name) + "(" + str(self.count) + " " + str(self.product.dimention) + ")"
+        return str(self.product.name) + "(" + str(self.count) + ")"
 
     def __unicode__(self):
-        return str(self.product.name) + "(" + str(self.count) + " " + str(self.product.dimention) + ")"
+        return str(self.product.name) + "(" + str(self.count) +     ")"
 
 
 # блюдо
@@ -148,6 +148,10 @@ class Recipe(models.Model):
     access = models.BooleanField(default=True)
     # остаток на складе
     remain = models.FloatField(default=0)
+    # тип
+    tp = models.ForeignKey(RecipeType, blank=True, null=True)
+    # кол-во порций
+    portionCnt = models.IntegerField(default=1)
 
     def __str__(self):
         return self.name + "(" + str(self.caloricity) + " ккалл)"
