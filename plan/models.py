@@ -119,7 +119,7 @@ class ProductPortion(models.Model):
         return str(self.product.name) + "(" + str(self.count) + ")"
 
     def __unicode__(self):
-        return str(self.product.name) + "(" + str(self.count) +     ")"
+        return str(self.product.name) + "(" + str(self.count) + ")"
 
 
 # блюдо
@@ -200,6 +200,12 @@ class Recipe(models.Model):
                         self.save()
                     except:
                         print("ошибка работы формы из формсета gen-equipment")
+                        self.proteins = self.proteins / self.portionCnt
+                        self.fats = self.fats / self.portionCnt
+                        self.carbohydrates = self.carbohydrates / self.portionCnt
+                        self.caloricity = self.caloricity / self.portionCnt
+                        self.weight = self.weight / self.portionCnt
+                        self.water = self.water / self.portionCnt
                 else:
                     print("for is not valid")
 
