@@ -48,13 +48,14 @@
           <td valign= "center"> {%  bootstrap_field form.inGlass %}</td>
         <td valign= "center"> {%  bootstrap_field form.inBigSpoon %}</td>
         <td valign= "center"> {%  bootstrap_field form.inSmallSpoon %}</td>
+        <td valign= "center"> {%  bootstrap_field form.defaultCapacity%}</td>
 
-         <td valign= "center"> <input  align="center" class="btn btn-primary" type="submit" value="Сохранить" class="button"/>
-             <a href='/product/delete/{{pk}}/'  class="btn btn-danger" onclick="YNconfirm(); return false;">Удалить</a></td>
+
     </tr>
 
 </table>
-
+         <div valign= "center"> <input  align="center" class="btn btn-primary" type="submit" value="Сохранить" class="button"/>
+             <a href='/product/delete/{{pk}}/'  class="btn btn-danger" onclick="YNconfirm(); return false;">Удалить</a></div>
 </form>
 
 

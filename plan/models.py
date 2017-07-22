@@ -96,6 +96,20 @@ class Product(models.Model):
     inUnit = models.IntegerField(default=0)
     # плотность
     density = models.IntegerField(default=0)
+    # ёмкость по умолчанию
+    defaultCapacity = models.IntegerField(default=0)
+    # стакан
+    GLASS_CAPACITY = 0
+    # чайная ложка
+    SMALL_SPOON_CAPACITY = 1
+    # столовая ложка
+    BUG_SPOON_CAPACITY = 2
+    # выбор ёмкости
+    capacityChoices = [
+        [GLASS_CAPACITY, 0],
+        [SMALL_SPOON_CAPACITY, 1],
+        [BUG_SPOON_CAPACITY, 2],
+    ]
 
     def __str__(self):
         if (self.inUnit == 0):
@@ -185,18 +199,20 @@ class Recipe(models.Model):
                 if form.is_valid:
                     try:
                         d = form.cleaned_data
+                        if d["cnt"] != 0:
+                            d["weight"]
                         ns = ProductPortion.objects.create(product=Product.objects.get(pk=int(d["product"])),
-                                                           count=float(d["cnt"]))
+                                                           count=float(d["weight"]))
                         ns.save()
                         # print(d["cnt"])
                         self.products.add(ns)
                         p = Product.objects.get(pk=int(d["product"]))
-                        self.proteins += p.proteins * d["cnt"] / 100
-                        self.fats += p.fats * d["cnt"] / 100
-                        self.carbohydrates += p.carbohydrates * d["cnt"] / 100
-                        self.caloricity += p.caloricity * d["cnt"] / 100
-                        self.weight += d["cnt"]
-                        self.water += p.water * d["cnt"] / 100
+                        self.proteins += p.proteins * d["weight"] / 100
+                        self.fats += p.fats * d["weight"] / 100
+                        self.carbohydrates += p.carbohydrates * d["weight"] / 100
+                        self.caloricity += p.caloricity * d["weight"] / 100
+                        self.weight += d["weight"]
+                        self.water += p.water * d["weight"] / 100
                         self.save()
                     except:
                         print("ошибка работы формы из формсета gen-equipment")

@@ -109,7 +109,7 @@ class ProductForm(ModelForm):
     class Meta:
         model = Product
         fields = {'name', 'proteins', 'fats', 'carbohydrates', 'caloricity', 'tp', 'cnt', 'dt', 'water',
-                  'remain', 'inSmallSpoon', 'inBigSpoon', 'inUnit', 'density', 'inGlass'}
+                  'remain', 'inSmallSpoon', 'inBigSpoon', 'inUnit', 'density', 'inGlass','defaultCapacity'}
         widgets = {
             'name': TextInput(attrs={'placeholder': 'Изделие'}),
         }
@@ -130,6 +130,7 @@ class ProductForm(ModelForm):
             'inUnit': 'вес штуки',
             'density': 'плотность',
             'inGlass': 'в стакане',
+            'defaultCapacity': 'Ёмкость по умолчанию',
         }
 
         error_messages = {
@@ -194,8 +195,8 @@ class AddRecipeForm(Form):
 # форма для выбора одного изделия с кол-вом
 class RecipePortionForm(Form):
     product = ChoiceField(label="")
-    cnt = FloatField(label="")
-    portionCnt = IntegerField(label="")
+    weight = FloatField(label="")
+    cnt = IntegerField(label="")
 
     def __init__(self, *args, **kwargs):
         super(RecipePortionForm, self).__init__(*args, **kwargs)
@@ -204,7 +205,7 @@ class RecipePortionForm(Form):
         self.fields['product'].widget.attrs['id'] = 'equipment'
 
         self.fields['product'].initial = None
-        self.fields['cnt'].initial = 0
+        self.fields['weight'].initial = 0
         self.fields['portionCnt'].initial = 0
         self.fields['product'].required = False
         self.fields['cnt'].required = False
