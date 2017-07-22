@@ -71,11 +71,13 @@
                 <tr>
                     <td align="center">Продукт</td>
                     <td align="center">Вес в г.</td>
+                    <td align="center">кол-во</td>
                 </tr>
             </thead>
             {% for link_form in equipment_formset %}
                 <tr class="equipment-formset">
                     <td valign="top">{% bootstrap_field link_form.product %}</td>
+                    <td valign="top">{% bootstrap_field link_form.weight %}</td>
                     <td valign="top">{% bootstrap_field link_form.cnt %}</td>
                 </tr>
             {% endfor %}

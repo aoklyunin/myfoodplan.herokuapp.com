@@ -80,9 +80,10 @@ def detailProduct(request, product_id):
             eq.water = form.cleaned_data['water']
             eq.tp = form.cleaned_data["tp"]
             eq.remain = form.cleaned_data["remain"]
+            eq.defaultCapacity = form.cleaned_data['cf']
             eq.save()
 
-    ef = ProductForm(instance=eq, prefix="main_form")
+    ef = ProductForm(instance=eq, prefix="main_form",initial={'cf':eq.defaultCapacity})
 
     c = {'login_form': LoginForm(),
          'one': '1',
@@ -155,9 +156,10 @@ def detailRecipe(request, recipe_id):
             eq.remain = form.cleaned_data["remain"]
             eq.tp = form.cleaned_data['tp']
             eq.portionCnt = form.cleaned_data['portionCnt']
+
             eq.save()
         equipment_formset = RecipePortionFormset(request.POST, request.FILES, prefix='equipment')
-        eq.addFromFormset(equipment_formset, True)
+        eq.addFromFormset(equipment_formset,  eq.portionCnt, True)
 
         #  print(eq.getEatChoices())
     ef = RecipeForm(instance=eq, prefix="main_form")

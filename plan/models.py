@@ -106,10 +106,23 @@ class Product(models.Model):
     BUG_SPOON_CAPACITY = 2
     # выбор ёмкости
     capacityChoices = [
-        [GLASS_CAPACITY, 0],
-        [SMALL_SPOON_CAPACITY, 1],
-        [BUG_SPOON_CAPACITY, 2],
+        [GLASS_CAPACITY, 'Стакан'],
+        [SMALL_SPOON_CAPACITY, 'Чайная ложка'],
+        [BUG_SPOON_CAPACITY, 'Столовая ложка'],
     ]
+
+
+    def getCapacityWeight(self):
+        if self.inUnit != 0:
+            return self.inUnit
+        else:
+            if self.defaultCapacity == 0:
+                return self.inGlass
+            elif self.defaultCapacity == 0:
+                return self.inSmallSpoon
+            elif self.defaultCapacity == 0:
+                return self.inBigSpoon
+
 
     def __str__(self):
         if (self.inUnit == 0):
@@ -178,10 +191,10 @@ class Recipe(models.Model):
         for ns in self.products.all():
             if (ns.product != None):
                 arr.append({'product': str(ns.product.pk),
-                            'cnt': str(ns.count)})
+                            'weight': str(ns.count)})
         return arr
 
-    def addFromFormset(self, formset, doCrear=False):
+    def addFromFormset(self, formset, portionCnt, doCrear=False):
         if (doCrear):
             for ns in self.products.all():
                 ns.delete()
@@ -200,7 +213,9 @@ class Recipe(models.Model):
                     try:
                         d = form.cleaned_data
                         if d["cnt"] != 0:
-                            d["weight"]
+                            d["weight"] = d["product"].getCapacityWeight()
+
+                        d["weight"] = d["weight"]/portionCnt
                         ns = ProductPortion.objects.create(product=Product.objects.get(pk=int(d["product"])),
                                                            count=float(d["weight"]))
                         ns.save()
@@ -216,12 +231,6 @@ class Recipe(models.Model):
                         self.save()
                     except:
                         print("ошибка работы формы из формсета gen-equipment")
-                    self.proteins = self.proteins / self.portionCnt
-                    self.fats = self.fats / self.portionCnt
-                    self.carbohydrates = self.carbohydrates / self.portionCnt
-                    self.caloricity = self.caloricity / self.portionCnt
-                    self.weight = self.weight / self.portionCnt
-                    self.water = self.water / self.portionCnt
                 else:
                     print("for is not valid")
 

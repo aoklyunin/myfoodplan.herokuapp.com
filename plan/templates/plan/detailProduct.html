@@ -20,8 +20,7 @@
 {% endblock %}
 {% block sub_content %}
 <br>
-<br>
-<br>
+
 <form method="post" >
      {% csrf_token %}
 
@@ -31,6 +30,9 @@
         <td valign= "center"> {%  bootstrap_field form.tp %}</td>
         <td valign= "center"> {%  bootstrap_field form.cnt %}</td>
         <td valign= "center"> {%  bootstrap_field form.dt %}</td>
+        <td valign="center" rowspan="4" align="center">     <div valign= "center"> <input  align="center" class="btn btn-primary" type="submit" value="Сохранить" class="button"/>
+             <a href='/product/delete/{{pk}}/'  class="btn btn-danger" onclick="YNconfirm(); return false;">Удалить</a></div>
+</td>
     </tr>
     <tr>
         <td valign= "center"> {%  bootstrap_field form.proteins %}</td>
@@ -48,15 +50,13 @@
           <td valign= "center"> {%  bootstrap_field form.inGlass %}</td>
         <td valign= "center"> {%  bootstrap_field form.inBigSpoon %}</td>
         <td valign= "center"> {%  bootstrap_field form.inSmallSpoon %}</td>
-        <td valign= "center"> {%  bootstrap_field form.defaultCapacity%}</td>
+        <td valign= "center"> {%  bootstrap_field form.cf%}</td>
 
 
     </tr>
 
 </table>
-         <div valign= "center"> <input  align="center" class="btn btn-primary" type="submit" value="Сохранить" class="button"/>
-             <a href='/product/delete/{{pk}}/'  class="btn btn-danger" onclick="YNconfirm(); return false;">Удалить</a></div>
-</form>
+   </form>
 
 
 {% endblock %}

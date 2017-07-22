@@ -106,10 +106,12 @@ class ProductSingleForm(Form):
 
 # форма оборудования
 class ProductForm(ModelForm):
+    cf = ChoiceField(label="Ёмкость по умолчанию")
+
     class Meta:
         model = Product
         fields = {'name', 'proteins', 'fats', 'carbohydrates', 'caloricity', 'tp', 'cnt', 'dt', 'water',
-                  'remain', 'inSmallSpoon', 'inBigSpoon', 'inUnit', 'density', 'inGlass','defaultCapacity'}
+                  'remain', 'inSmallSpoon', 'inBigSpoon', 'inUnit', 'density', 'inGlass'}
         widgets = {
             'name': TextInput(attrs={'placeholder': 'Изделие'}),
         }
@@ -130,7 +132,6 @@ class ProductForm(ModelForm):
             'inUnit': 'вес штуки',
             'density': 'плотность',
             'inGlass': 'в стакане',
-            'defaultCapacity': 'Ёмкость по умолчанию',
         }
 
         error_messages = {
@@ -141,6 +142,7 @@ class ProductForm(ModelForm):
     def __init__(self, *args, **kwargs):
         # first call parent's constructor
         super(ProductForm, self).__init__(*args, **kwargs)
+        self.fields['cf'].choices = Product.capacityChoices
 
 
 # форма для выбора изделия для редактирования  конструктором
@@ -206,10 +208,10 @@ class RecipePortionForm(Form):
 
         self.fields['product'].initial = None
         self.fields['weight'].initial = 0
-        self.fields['portionCnt'].initial = 0
+        self.fields['cnt'].initial = 0
         self.fields['product'].required = False
+        self.fields['weight'].required = False
         self.fields['cnt'].required = False
-        self.fields['portionCnt'].required = False
 
 
 # форма для добавления новых изделий
