@@ -212,7 +212,7 @@ class Recipe(models.Model):
             for form in formset.forms:
                 if form.is_valid:
                     try:
-                        
+
                         d = form.cleaned_data
                         try:
                             d["weight"]
