@@ -213,7 +213,10 @@ class Recipe(models.Model):
                 if form.is_valid:
                     try:
                         d = form.cleaned_data
-                        d["weight"] = 0
+                        try:
+                            d["weight"]
+                        except:
+                            d["weight"] = 0
                         try:
                             d["cnt"]
                         except:
@@ -224,11 +227,11 @@ class Recipe(models.Model):
                             d["weight"] = product.getCapacityWeight()
                         print(d)
                         d["weight"] = d["weight"] / portionCnt
-                        try:
-                            ns = ProductPortion.objects.create(product=Product.objects.get(pk=int(d["product"])),
-                                                           count=float(d["weight"]))
-                        except:
-                            continue
+                        #try:
+                        ns = ProductPortion.objects.create(product=Product.objects.get(pk=int(d["product"])),
+                                                               count=float(d["weight"]) )
+                        #except:
+
                         ns.save()
                         # print(d["cnt"])
                         self.products.add(ns)
