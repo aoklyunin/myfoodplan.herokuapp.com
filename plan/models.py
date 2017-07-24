@@ -225,7 +225,7 @@ class Recipe(models.Model):
                         if d["cnt"] != 0:
                             product = Product.objects.get(pk=int(d["product"]))
                             #print(product.getCapacityWeight())
-                            d["weight"] = product.getCapacityWeight()
+                            d["weight"] = product.getCapacityWeight()*d["cnt"]
                         print(d)
                         d["weight"] = d["weight"] / portionCnt
                         #try:
