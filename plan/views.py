@@ -131,6 +131,7 @@ def addRecipe(request):
         if form.is_valid():
             d = {}
             d["name"] = form.cleaned_data["name"]
+            d["tp"] = form.cleaned_data["tp"]
             eq = Recipe.objects.create(**d)
             eq.save()
             return HttpResponseRedirect('/recipe/detail/' + str(eq.pk) + '/')

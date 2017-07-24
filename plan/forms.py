@@ -190,8 +190,11 @@ class AddRecipeForm(Form):
     name = CharField(max_length=10000, label="Название",
                      widget=TextInput(attrs={'placeholder': 'Рагу'}))
 
+    tp = ChoiceField(label="Тип")
+
     def __init__(self, *args, **kwargs):
         super(AddRecipeForm, self).__init__(*args, **kwargs)
+        self.fields['tp'].choices = RecipeType.objects.all()
 
 
 # форма для выбора одного изделия с кол-вом
